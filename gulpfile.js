@@ -1,5 +1,6 @@
 // Modules & Plugins
 // npm del gulp-concat gulp-connect gulp-minify-css gulp-notify gulp-rename gulp-uglify gulp-compass --save-dev
+// gulp-gh-pages
 var del = require('del');
 var gulp = require('gulp');
 var compass = require('gulp-compass');
@@ -9,7 +10,7 @@ var minifycss = require('gulp-minify-css');
 var notify = require('gulp-notify');
 var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
-
+var ghPages = require('gulp-gh-pages');
 
 // Error Helper
 function onError(err) {
@@ -42,19 +43,13 @@ gulp.task('scripts', function() {
 
 // Styles Task.
 gulp.task('compass', function() {
-  gulp.src('sass/main.scss') //來源路徑
+  gulp.src('sass/*.scss')
     .pipe(compass({
-      config_file: 'config.rb'
-    }))
-    .on('error', function(error) {
-      // Would like to catch the error here 
-      console.log(error);
-      this.emit('end');
-    })
-    .pipe(minifycss())
-    .pipe(gulp.dest('app/css'));
+      config_file: './config.rb',
+      css: 'app/css',
+      sass: 'sass'
+    }));
 });
-
 
 // Watch Task.
 gulp.task('watch', function() {
@@ -78,4 +73,10 @@ gulp.task('clean', function(cb) {
 gulp.task('default', ['clean'], function() {
   // gulp.start('html', 'styles', 'scripts', 'server', 'watch');
   gulp.start('html', 'compass', 'scripts', 'server', 'watch');
+});
+
+// Deploy Task.
+gulp.task('deploy', function() {
+  return gulp.src('./dist/**/*')
+    .pipe(ghPages());
 });

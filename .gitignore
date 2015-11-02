@@ -40,3 +40,7 @@ build/Release
 node_modules
 
 app/assets/vendor
+app/css
+app/fonts
+app/js
+
