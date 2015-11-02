@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Trip Time</title>
+  <!-- Bootstrap Core CSS -->
+  <link rel="stylesheet" href="assets/vendor/bootstrap/dist/css/bootstrap.min.css">
+  <!-- Flat UI -->
+  <link rel="stylesheet" href="assets/vendor/flat-ui/dist/css/flat-ui.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/main.css">
+  <link href="css/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <link href="css/print.css" media="print" rel="stylesheet" type="text/css" />
+  <!--[if IE]>
+      <link href="css/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <![endif]-->
+</head>
+
+<body>
+  <div id="wrapper">
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+      <div class="sidebar-nav">
+        <h3>Trip Time</h3>
+        <hr>
+        <!-- sliders -->
+        <article>
+          <h4 class="demo-panel-title">搭乘時間 <span class="fui-time"></span></h4>
+          <div id="slider" class="ui-slider">
+            <div class="ui-slider-segment"></div>
+            <div class="ui-slider-segment"></div>
+            <div class="ui-slider-segment"></div>
+            <span class="ui-slider-value last" data-slidervalue="15">15 分鐘</span>
+          </div>
+        </article>
+        <!-- /sliders -->
+        <article>
+          <h4 class="demo-panel-title">交通工具 <span class="fui-user"></span></h4>
+          <select class="form-control select select-primary" data-toggle="select">
+            <option value="0">步行</option>
+            <option value="1">客運</option>
+            <option value="2" selected>火車</option>
+            <option value="3">高鐵</option>
+          </select>
+        </article>
+        <!-- /.col-xs-3 -->
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+      <div class="container-fluid">
+        <a href="#menu-toggle" id="menu-toggle"><span class="fui-cross"></span></a>
+        <div id="map-canvas"></div>
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+  </div>
+  <!-- /#wrapper -->
+  <script src="https://maps.googleapis.com/maps/api/js"></script>
+  <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
+  <script src="assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="assets/vendor/flat-ui/dist/js/flat-ui.min.js"></script>
+  <script src="js/main.js"></script>
+  <!-- <script src="js/main.min.js"></script> -->
+  <script>
+  </script>
+</body>
+
+</html>
