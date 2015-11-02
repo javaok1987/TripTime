@@ -1,0 +1,32 @@
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", "標楷體", DFKai-SB, sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: rgb(229, 227, 223);
+}
+
+.clearfix {
+  overflow: auto;
+}
+
+#map-canvas {
+  height: 100%;
+}
+
+#menu-toggle {
+  top: 0;
+  left: 10px;
+  /*padding: 5px;*/
+  position: absolute;
+  width: 60px;
+  z-index: 1;
+  color: #34495e;
+}

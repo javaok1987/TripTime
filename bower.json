@@ -1,0 +1,21 @@
+{
+  "name": "Triptime",
+  "version": "0.0.1",
+  "authors": [
+    "ianliao <ianliao@eztravel.com.tw>"
+  ],
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "flat-ui": "~2.2.2",
+    "bootstrap": "~3.3.5"
+  }
+}
