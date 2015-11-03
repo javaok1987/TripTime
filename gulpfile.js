@@ -1,9 +1,11 @@
-// Modules & Plugins
-// npm del gulp-concat gulp-connect gulp-minify-css gulp-notify gulp-rename gulp-uglify gulp-compass --save-dev
-// gulp-gh-pages
+//Modules
 var del = require('del'),
-  gulp = require('gulp'),
-  compass = require('gulp-compass'),
+  fs = require('fs'),
+  sass = require('node-sass'),
+  minifyCss = require('gulp-minify-css');
+
+//gulp.js plugin registry.
+var gulp = require('gulp'),
   concat = require('gulp-concat'),
   connect = require('gulp-connect'),
   minifycss = require('gulp-minify-css'),
@@ -11,6 +13,7 @@ var del = require('del'),
   rename = require('gulp-rename'),
   uglify = require('gulp-uglify'),
   ghPages = require('gulp-gh-pages');
+
 
 
 // Error Helper
@@ -45,21 +48,42 @@ gulp.task('scripts', function() {
 });
 
 // Styles Task.
-gulp.task('compass', function() {
-  gulp.src('sass/*.scss')
-    .pipe(compass({
-      config_file: './config.rb',
-      css: 'app/css',
-      sass: 'sass'
-    }))
-    .pipe(connect.reload());
+// var compass = require('gulp-compass');
+// gulp.task('compass', function() {
+//   gulp.src('sass/*.scss')
+//     .pipe(compass({
+//       config_file: './config.rb',
+//       css: 'app/css',
+//       sass: 'sass'
+//     }))
+//     .pipe(connect.reload());
+// });
+
+gulp.task('sass', function() {
+  sass.render({
+    file: 'sass/main.scss',
+  }, function(err, result) {
+    fs.writeFile('app/css/main.css', result.css, function(err) {
+      if (err) {
+        return console.log(err);
+      }
+      console.log("The file was saved!");
+      gulp.src('app/css/main.css')
+        .pipe(minifyCss())
+        .pipe(rename({
+          suffix: '.min'
+        }))
+        .pipe(gulp.dest('app/css'))
+        .pipe(connect.reload());
+    });
+  });
 });
 
 // Watch Task.
 gulp.task('watch', function() {
   gulp.watch('app/*.html', ['html']);
   gulp.watch('scripts/*.js', ['scripts']);
-  gulp.watch('sass/*.scss', ['compass']);
+  gulp.watch('sass/*.scss', ['sass']);
 }).on('change', function(event) {
   console.log('File ' + event.path + ' was ' + event.type);
 });
@@ -75,8 +99,7 @@ gulp.task('clean', function(cb) {
 
 // Default Task.
 gulp.task('default', ['clean'], function() {
-  // gulp.start('html', 'styles', 'scripts', 'server', 'watch');
-  gulp.start('html', 'compass', 'scripts', 'server', 'watch');
+  gulp.start('html', 'sass', 'scripts', 'server', 'watch');
 });
 
 // Deploy Task.
