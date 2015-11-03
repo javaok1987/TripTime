@@ -63,17 +63,21 @@ gulp.task('sass', function() {
   sass.render({
     file: 'sass/main.scss',
   }, function(err, result) {
-    fs.writeFile('app/css/main.css', result.css, function(err) {
+    var _dir = 'app/css';
+    if (!fs.existsSync(_dir)) {
+      fs.mkdirSync(_dir);
+    }
+    fs.writeFile(_dir + '/main.css', result.css, function(err) {
       if (err) {
         return console.log(err);
       }
       console.log("The file was saved!");
-      gulp.src('app/css/main.css')
+      gulp.src(_dir + '/main.css')
         .pipe(minifyCss())
         .pipe(rename({
           suffix: '.min'
         }))
-        .pipe(gulp.dest('app/css'))
+        .pipe(gulp.dest(_dir))
         .pipe(connect.reload());
     });
   });
