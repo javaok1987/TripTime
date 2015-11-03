@@ -74,7 +74,8 @@
 
     $(window).resize(resizeMap);
 
-    $menu.on('click', function() {
+    $menu.on('click', function(event) {
+      event.preventDefault();
       $('#wrapper').toggleClass('toggled').promise().done(function() {
         setTimeout(resizeMap, 500); //TODO:不加setTimeout無法觸發?
       });
