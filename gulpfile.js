@@ -81,9 +81,7 @@ gulp.task('default', ['clean'], function() {
 
 // Deploy Task.
 gulp.task('deploy', function() {
-  gulp.src('./dist/**/*')
-    .pipe(ghPages())
-    .pipe(notify({
-      message: 'Deploy task complete'
-    }));
+  return gulp.src('./app/**/*')
+    .pipe(ghPages());
+
 });
