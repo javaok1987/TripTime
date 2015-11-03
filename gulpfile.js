@@ -1,16 +1,17 @@
 // Modules & Plugins
 // npm del gulp-concat gulp-connect gulp-minify-css gulp-notify gulp-rename gulp-uglify gulp-compass --save-dev
 // gulp-gh-pages
-var del = require('del');
-var gulp = require('gulp');
-var compass = require('gulp-compass');
-var concat = require('gulp-concat');
-var connect = require('gulp-connect');
-var minifycss = require('gulp-minify-css');
-var notify = require('gulp-notify');
-var rename = require('gulp-rename');
-var uglify = require('gulp-uglify');
-var ghPages = require('gulp-gh-pages');
+var del = require('del'),
+  gulp = require('gulp'),
+  compass = require('gulp-compass'),
+  concat = require('gulp-concat'),
+  connect = require('gulp-connect'),
+  minifycss = require('gulp-minify-css'),
+  notify = require('gulp-notify'),
+  rename = require('gulp-rename'),
+  uglify = require('gulp-uglify'),
+  ghPages = require('gulp-gh-pages');
+
 
 // Error Helper
 function onError(err) {
@@ -35,10 +36,12 @@ gulp.task('scripts', function() {
   gulp.src('scripts/*.js')
     .pipe(concat('main.js'))
     .pipe(gulp.dest('app/js'))
-    .pipe(rename({suffix: '.min'}))
+    .pipe(rename({
+      suffix: '.min'
+    }))
     .pipe(uglify())
     .pipe(gulp.dest('app/js'))
-    .pipe(notify({message: 'Scripts task complete'}));
+    .pipe(connect.reload());
 });
 
 // Styles Task.
@@ -48,14 +51,15 @@ gulp.task('compass', function() {
       config_file: './config.rb',
       css: 'app/css',
       sass: 'sass'
-    }));
+    }))
+    .pipe(connect.reload());
 });
 
 // Watch Task.
 gulp.task('watch', function() {
-  gulp.watch(['app/*.html', 'js/**/*.js'], ['html', 'scripts']);
-  // gulp.watch('css/**/*.css', 'styles');
-  gulp.watch('sass/*.sass', ['compass']);
+  gulp.watch('app/*.html', ['html']);
+  gulp.watch('scripts/*.js', ['scripts']);
+  gulp.watch('sass/*.scss', ['compass']);
 }).on('change', function(event) {
   console.log('File ' + event.path + ' was ' + event.type);
 });
@@ -77,6 +81,9 @@ gulp.task('default', ['clean'], function() {
 
 // Deploy Task.
 gulp.task('deploy', function() {
-  return gulp.src('./app/**/*')
-    .pipe(ghPages());
+  gulp.src('./dist/**/*')
+    .pipe(ghPages())
+    .pipe(notify({
+      message: 'Deploy task complete'
+    }));
 });
