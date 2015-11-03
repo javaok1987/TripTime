@@ -9,10 +9,16 @@
   <meta name="author" content="">
   <title>Trip Time</title>
   <!-- Bootstrap Core CSS -->
-  <link rel="stylesheet" href="assets/vendor/bootstrap/dist/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="assets/vendor/bootstrap/dist/css/bootstrap.min.css"> -->
   <!-- Flat UI -->
-  <link rel="stylesheet" href="assets/vendor/flat-ui/dist/css/flat-ui.min.css">
+  <!-- <link rel="stylesheet" href="assets/vendor/flat-ui/dist/css/flat-ui.min.css"> -->
+  <!-- bootstrap-datepicker -->
+  <!-- <link rel="stylesheet" href="assets/vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css"> -->
   <!-- Custom CSS -->
+  <!-- CDN -->
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/flat-ui/2.2.2/css/flat-ui.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
   <link rel="stylesheet" href="css/main.css">
   <!-- <link href="css/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> -->
   <!-- <link href="css/print.css" media="print" rel="stylesheet" type="text/css" /> -->
@@ -36,7 +42,7 @@
         <hr>
         <!-- sliders -->
         <article>
-          <h4 class="demo-panel-title">搭乘時間 <span class="fui-time"></span></h4>
+          <h5 class="demo-panel-title">搭乘時間 <span class="fui-time"></span></h5>
           <div id="slider" class="ui-slider">
             <div class="ui-slider-segment"></div>
             <div class="ui-slider-segment"></div>
@@ -46,15 +52,38 @@
         </article>
         <!-- /sliders -->
         <article>
-          <h4 class="demo-panel-title">交通工具 <span class="fui-user"></span></h4>
-          <select class="form-control select select-primary" data-toggle="select">
-            <option value="0">步行</option>
-            <option value="1">客運</option>
-            <option value="2" selected>火車</option>
-            <option value="3">高鐵</option>
+          <h5 class="demo-panel-title">交通工具 <span class="fui-user"></span></h5>
+          <select class="form-control select select-primary" data-toggle="select" id="select-conveyance">
+            <option value="walk">步行</option>
+            <option value="bus">客運</option>
+            <option value="train" selected>火車</option>
+            <option value="thsrc">高鐵</option>
           </select>
         </article>
-        <!-- /.col-xs-3 -->
+        <article>
+          <h5 class="demo-panel-title">查詢日期 <span class="fui-calendar-solid"></span></h5>
+          <div id="datepicker"></div>
+        </article>
+        <article>
+        <h5 class="demo-panel-title">開始時間 <span class="fui-time"></span></h5>
+          <select class="form-control select select-primary" data-toggle="select" id="select-form-time">
+            <option value="0800">08:00</option>
+            <option value="0900" selected>09:00</option>
+            <option value="1000">10:00</option>
+            <option value="1100">11:00</option>
+            <option value="1200">12:00</option>
+            <option value="1300">13:00</option>
+            <option value="1400">14:00</option>
+            <option value="1500">15:00</option>
+            <option value="1600">16:00</option>
+            <option value="1700">17:00</option>
+          </select>
+        </article>
+        <article>
+          <button class="btn btn-primary btn-large btn-block" id="btn-search">
+            比較
+          </button>
+        </article>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -68,10 +97,22 @@
     <!-- /#page-content-wrapper -->
   </div>
   <!-- /#wrapper -->
-  <script src="https://maps.googleapis.com/maps/api/js"></script>
-  <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
-  <script src="assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
-  <script src="assets/vendor/flat-ui/dist/js/flat-ui.min.js"></script>
+
+  <script src="//maps.googleapis.com/maps/api/js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script>if (typeof jQuery === 'undefined') {
+    document.write(unescape('%3Cscript%20src%3D%22assets/vendor/jquery/dist/jquery.min.js%22%3E%3C/script%3E'));
+  }
+  </script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/flat-ui/2.2.2/js/flat-ui.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/locales/bootstrap-datepicker.zh-TW.min.js"></script>
+  <!-- <script src="assets/vendor/jquery/dist/jquery.min.js"></script> -->
+  <!-- <script src="assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script> -->
+  <!-- <script src="assets/vendor/flat-ui/dist/js/flat-ui.min.js"></script> -->
+  <!-- <script src="assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script> -->
   <script src="js/main.js"></script>
   <!-- <script src="js/main.min.js"></script> -->
   <script>
