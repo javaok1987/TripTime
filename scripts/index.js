@@ -22,30 +22,30 @@
     google.maps.event.addDomListener(window, 'load', function() {
       var styles = [{
         stylers: [{
-          hue: "#00ffe6"
+          hue: '#00ffe6'
         }, {
           saturation: -20
         }]
       }, {
-        featureType: "road",
-        elementType: "geometry",
+        featureType: 'road',
+        elementType: 'geometry',
         stylers: [{
           lightness: 100
         }, {
-          visibility: "simplified"
+          visibility: 'simplified'
         }]
       }, {
-        featureType: "road",
-        elementType: "labels",
+        featureType: 'road',
+        elementType: 'labels',
         stylers: [{
-          visibility: "off"
+          visibility: 'off'
         }]
       }];
 
       // Create a new StyledMapType object, passing it the array of styles,
       // as well as the name to be displayed on the map type control.
       var styledMap = new google.maps.StyledMapType(styles, {
-        name: "Styled Map"
+        name: 'Styled Map'
       });
 
       var mapOptions = {
@@ -87,7 +87,7 @@
       language: 'zh-TW',
       todayHighlight: true
     });
-    $datepicker.datepicker("setDate", new Date());
+    $datepicker.datepicker('setDate', new Date());
 
     $btn.search.on('click', function() {
       var _content = '搭乘時間: ' + $slider.find('.ui-slider-value:last').data('slidervalue') +
