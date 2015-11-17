@@ -35,71 +35,114 @@
 </head>
 
 <body>
-  <div id="wrapper">
-    <!-- Sidebar -->
-    <div id="sidebar-wrapper">
-      <div class="sidebar-nav">
-        <h3>Trip Time</h3>
-        <hr>
-        <!-- sliders -->
-        <article>
-          <h5 class="demo-panel-title">搭乘時間 <span class="fui-time"></span></h5>
-          <div id="slider" class="ui-slider">
-            <div class="ui-slider-segment"></div>
-            <div class="ui-slider-segment"></div>
-            <div class="ui-slider-segment"></div>
-            <span class="ui-slider-value last" data-slidervalue="15">15 分鐘</span>
-          </div>
-        </article>
-        <!-- /sliders -->
-        <article>
-          <h5 class="demo-panel-title">交通工具 <span class="fui-user"></span></h5>
-          <select class="form-control select select-primary" data-toggle="select" id="select-conveyance">
-            <option value="walk">步行</option>
-            <option value="bus">客運</option>
-            <option value="train" selected>火車</option>
-            <option value="thsrc">高鐵</option>
-          </select>
-        </article>
-        <article>
-          <h5 class="demo-panel-title">查詢日期 <span class="fui-calendar-solid"></span></h5>
-          <div id="datepicker"></div>
-        </article>
-        <article>
-        <h5 class="demo-panel-title">開始時間 <span class="fui-time"></span></h5>
-          <select class="form-control select select-primary" data-toggle="select" id="select-form-time">
-            <option value="0800">08:00</option>
-            <option value="0900" selected>09:00</option>
-            <option value="1000">10:00</option>
-            <option value="1100">11:00</option>
-            <option value="1200">12:00</option>
-            <option value="1300">13:00</option>
-            <option value="1400">14:00</option>
-            <option value="1500">15:00</option>
-            <option value="1600">16:00</option>
-            <option value="1700">17:00</option>
-          </select>
-        </article>
-        <article>
-          <button class="btn btn-primary btn-large btn-block" id="btn-search">
-            比較
-          </button>
-        </article>
-      </div>
-    </div>
-    <!-- /#sidebar-wrapper -->
-    <!-- Page Content -->
-    <div id="page-content-wrapper">
-      <div class="container-fluid">
-        <a href="#menu-toggle" id="menu-toggle"><span class="fui-cross"></span></a>
+    <div id="wrapper">
+        <!-- Map Content -->
         <div id="map-canvas"></div>
-      </div>
+        <!-- <a href="#menu-toggle" id="menu-toggle"><span class="fui-cross"></span></a> -->
+        <div id="footer">
+            <div class="items">
+                <article>
+                <div class="share">
+                    <div class="btn btn-primary btn-block btn-large">
+                    搭乘時間 
+                    <!-- <span class="fui-time"></span> -->
+                    </div>
+                    <div id="slider" class="ui-slider">
+                        <div class="ui-slider-segment"></div>
+                        <div class="ui-slider-segment"></div>
+                        <div class="ui-slider-segment"></div>
+                        <span class="ui-slider-value last" data-slidervalue="15">15 分鐘</span>
+                    </div>
+                    </div>
+
+                </article>
+                <article id="article-form-time">
+                <div class="share">
+                        <div class="btn btn-primary btn-block btn-large">
+                    出發時間 
+                    <!-- <span class="fui-time"></span> -->
+                    </div>
+                    <div class="form-time">
+                        <select class="form-control select select-primary input-medium" data-toggle="select" id="select-form-time" >
+                        <option value="0800">08:00</option>
+                        <option value="0900" selected>09:00</option>
+                        <option value="1000">10:00</option>
+                        <option value="1100">11:00</option>
+                        <option value="1200">12:00</option>
+                        <option value="1300">13:00</option>
+                        <option value="1400">14:00</option>
+                        <option value="1500">15:00</option>
+                        <option value="1600">16:00</option>
+                        <option value="1700">17:00</option>
+                    </select>
+                    </div>
+                    </div>
+                </article>
+                <article id="article-conveyance">
+                <div class="share">
+                    <div class="btn btn-primary btn-block btn-large">
+                        交通工具 
+                        <!-- <span class="fui-user"></span> -->
+                        </div>
+                    <label class="radio">
+                        <input type="radio" name="conveyance" id="" value="mrt" data-toggle="radio" checked> 捷運
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="conveyance" id="" value="bus" data-toggle="radio"> 客運
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="conveyance" id="" value="train" data-toggle="radio"> 火車
+                    </label>
+                    </div>
+                </article>
+                <article>
+                    <div class="share">
+                        <div class="btn btn-primary btn-block btn-large">步行距離</div>
+                        <div id="walk-slider" class="ui-slider">
+                            <div class="ui-slider-segment"></div>
+                            <div class="ui-slider-segment"></div>
+                            <div class="ui-slider-segment"></div>
+                            <span class="ui-slider-value last" data-slidervalue="15">15 分鐘</span>
+                        </div>
+                    </div>
+                </article>
+                <article>
+                <div class="share">
+                    <div class="btn btn-primary btn-block btn-large">圖層開關</div>
+                    <ul>
+                        <li>
+                            <label class="share-label" for="share-toggle2">公車站牌</label>
+                            <input type="checkbox" data-toggle="switch" />
+                        </li>
+                        <li>
+                            <label class="share-label" for="share-toggle4">捷運站</label>
+                            <input type="checkbox" checked="" data-toggle="switch" />
+                        </li>
+                        <li>
+                            <label class="share-label" for="share-toggle6">火車站</label>
+                            <input type="checkbox" data-toggle="switch" />
+                        </li>
+                    </ul>
+                    </div>
+                </article>
+                <article>
+                <div class="vertical-container">
+                    <button class="btn btn-primary btn-large btn-block" id="btn-search">
+                        比較
+                    </button>
+                </div>
+                    
+                </article>
+            </div>
+        </div>
     </div>
-    <!-- /#page-content-wrapper -->
-  </div>
+
+
+
+
   <!-- /#wrapper -->
 
-  <script>
+<!--   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -109,7 +152,7 @@
     ga('send', 'pageview');
 
   </script>
-
+-->
   <script src="//maps.googleapis.com/maps/api/js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>

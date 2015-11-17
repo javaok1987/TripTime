@@ -2,61 +2,84 @@
 
 // Extend JS String with repeat method
 String.prototype.repeat = function(num) {
-  return new Array(Math.round(num) + 1).join(this);
+    return new Array(Math.round(num) + 1).join(this);
 };
 
 (function($) {
 
-  // Add segments to a slider
-  $.fn.addSliderSegments = function() {
-    return this.each(function() {
-      var $this = $(this),
-        option = $this.slider('option'),
-        amount = (option.max - option.min) / option.step,
-        orientation = option.orientation;
-      if ('vertical' === orientation) {
-        var output = '',
-          i;
-        console.log(amount);
-        for (i = 1; i <= amount - 1; i + 1) {
-          output += '<div class="ui-slider-segment" style="top:' + 100 / amount * i + '%;"></div>';
+    // Add segments to a slider
+    $.fn.addSliderSegments = function() {
+        return this.each(function() {
+            var $this = $(this),
+                option = $this.slider('option'),
+                amount = (option.max - option.min) / option.step,
+                orientation = option.orientation;
+            if ('vertical' === orientation) {
+                var output = '',
+                    i;
+                console.log(amount);
+                for (i = 1; i <= amount - 1; i + 1) {
+                    output += '<div class="ui-slider-segment" style="top:' + 100 / amount * i + '%;"></div>';
+                }
+                $this.prepend(output);
+            } else {
+                var segmentGap = 100 / (amount) + '%';
+                var segment = '<div class="ui-slider-segment" style="margin-left: ' + segmentGap + ';"></div>';
+                $this.prepend(segment.repeat(amount - 1));
+            }
+        });
+    };
+
+    jQuery(function($) {
+
+        var $slider = $('#slider'),
+            $walkSlider = $('#walk-slider'),
+            sliderValueMultiplier = 15;
+
+        // Custom Selects
+        if ($('[data-toggle="select"]').length) {
+            $('[data-toggle="select"]').select2(); 
         }
-        $this.prepend(output);
-      } else {
-        var segmentGap = 100 / (amount) + '%';
-        var segment = '<div class="ui-slider-segment" style="margin-left: ' + segmentGap + ';"></div>';
-        $this.prepend(segment.repeat(amount - 1));
-      }
+
+        // jQuery UI Sliders
+        if ($slider.length > 0) {
+            $slider.slider({
+                min: 1,
+                max: 4,
+                value: 2,
+                orientation: 'horizontal',
+                range: 'min',
+                slide: function(event, ui) {
+                    var _value = ui.value * sliderValueMultiplier;
+                    $slider.find('.ui-slider-value:last').text(_value + ' 分鐘').data('slidervalue', _value);
+                }
+            }).addSliderSegments($slider.slider('option').max);
+        }
+
+        if ($walkSlider.length > 0) {
+            $walkSlider.slider({
+                min: 1,
+                max: 4,
+                value: 2,
+                orientation: 'horizontal',
+                range: 'min',
+                slide: function(event, ui) {
+                    var _value = ui.value * sliderValueMultiplier;
+                    $walkSlider.find('.ui-slider-value:last').text(_value + ' 分鐘').data('slidervalue', _value);
+                }
+            }).addSliderSegments($walkSlider.slider('option').max);
+        }
+
+        // Checkboxes and Radio buttons
+        $('[data-toggle="checkbox"]').radiocheck();
+        $('[data-toggle="radio"]').radiocheck();
+
+        // Switches
+        if ($('[data-toggle="switch"]').length) {
+            $('[data-toggle="switch"]').bootstrapSwitch();
+        }
+
     });
-  };
-
-  jQuery(function($) {
-
-    var $slider = $('#slider');
-    var sliderValueMultiplier = 15;
-
-   // Custom Selects
-    if ($('[data-toggle="select"]').length) {
-      $('[data-toggle="select"]').select2();
-    }
-    
-    // jQuery UI Sliders
-    if ($slider.length > 0) {
-      $slider.slider({
-        min: 1,
-        max: 4,
-        value: 2,
-        orientation: 'horizontal',
-        range: 'min',
-        slide: function(event, ui) {
-          var _value = ui.value * sliderValueMultiplier;
-          $slider.find('.ui-slider-value:last').text(_value + ' 分鐘').data('slidervalue', _value);
-        }
-      }).addSliderSegments($slider.slider('option').max);
-    }
-
-
-  });
 
 })(jQuery);
 
@@ -66,8 +89,8 @@ String.prototype.repeat = function(num) {
 (function($) {
 
   var gmap,
-    $datepicker = $('#datepicker'),
     $slider = $('#slider'),
+    $walkSlider = $('#walk-slider'),
     $select = {
       fromtime: $('#select-form-time'),
       conveyance: $('#select-conveyance')
@@ -83,26 +106,113 @@ String.prototype.repeat = function(num) {
 
     google.maps.event.addDomListener(window, 'load', function() {
       var styles = [{
-        stylers: [{
-          hue: '#00ffe6'
+            "featureType": "water",
+            "elementType": "geometry",
+            "stylers": [{
+                "color": "#000000"
+            }, {
+                "lightness": 17
+            }]
         }, {
-          saturation: -20
-        }]
-      }, {
-        featureType: 'road',
-        elementType: 'geometry',
-        stylers: [{
-          lightness: 100
+            "featureType": "landscape",
+            "elementType": "geometry",
+            "stylers": [{
+                "color": "#000000"
+            }, {
+                "lightness": 20
+            }]
         }, {
-          visibility: 'simplified'
-        }]
-      }, {
-        featureType: 'road',
-        elementType: 'labels',
-        stylers: [{
-          visibility: 'off'
-        }]
-      }];
+            "featureType": "road.highway",
+            "elementType": "geometry.fill",
+            "stylers": [{
+                "color": "#000000"
+            }, {
+                "lightness": 17
+            }]
+        }, {
+            "featureType": "road.highway",
+            "elementType": "geometry.stroke",
+            "stylers": [{
+                "color": "#000000"
+            }, {
+                "lightness": 29
+            }, {
+                "weight": 0.2
+            }]
+        }, {
+            "featureType": "road.arterial",
+            "elementType": "geometry",
+            "stylers": [{
+                "color": "#000000"
+            }, {
+                "lightness": 18
+            }]
+        }, {
+            "featureType": "road.local",
+            "elementType": "geometry",
+            "stylers": [{
+                "color": "#000000"
+            }, {
+                "lightness": 16
+            }]
+        }, {
+            "featureType": "poi",
+            "elementType": "geometry",
+            "stylers": [{
+                "color": "#000000"
+            }, {
+                "lightness": 21
+            }]
+        }, {
+            "elementType": "labels.text.stroke",
+            "stylers": [{
+                "visibility": "on"
+            }, {
+                "color": "#000000"
+            }, {
+                "lightness": 16
+            }]
+        }, {
+            "elementType": "labels.text.fill",
+            "stylers": [{
+                "saturation": 36
+            }, {
+                "color": "#000000"
+            }, {
+                "lightness": 40
+            }]
+        }, {
+            "elementType": "labels.icon",
+            "stylers": [{
+                "visibility": "off"
+            }]
+        }, {
+            "featureType": "transit",
+            "elementType": "geometry",
+            "stylers": [{
+                "color": "#000000"
+            }, {
+                "lightness": 19
+            }]
+        }, {
+            "featureType": "administrative",
+            "elementType": "geometry.fill",
+            "stylers": [{
+                "color": "#000000"
+            }, {
+                "lightness": 20
+            }]
+        }, {
+            "featureType": "administrative",
+            "elementType": "geometry.stroke",
+            "stylers": [{
+                "color": "#000000"
+            }, {
+                "lightness": 17
+            }, {
+                "weight": 1.2
+            }]
+        }];
 
       // Create a new StyledMapType object, passing it the array of styles,
       // as well as the name to be displayed on the map type control.
@@ -145,16 +255,10 @@ String.prototype.repeat = function(num) {
       _this.find('span').toggleClass('fui-list', 'fui-cross');
     });
 
-    $datepicker.datepicker({
-      language: 'zh-TW',
-      todayHighlight: true
-    });
-    $datepicker.datepicker('setDate', new Date());
-
+    
     $btn.search.on('click', function() {
       var _content = '搭乘時間: ' + $slider.find('.ui-slider-value:last').data('slidervalue') +
         '\n交通工具: ' + $select.conveyance.val() +
-        '\n查詢日期: ' + $datepicker.data('datepicker').getFormattedDate('yyyy-mm-dd') +
         '\n開始時間: ' + $select.fromtime.val();
 
       console.log(_content);
