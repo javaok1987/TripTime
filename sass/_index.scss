@@ -1,5 +1,4 @@
 @import "variables";
-
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -8,19 +7,31 @@
 }
 
 html,
-body {
+body,
+#wrapper {
+  width: 100%;
   height: 100%;
-  margin: 0;
-  padding: 0;
+  margin: 0px;
+  padding: 0px;
+  position: relative;
   background-color: rgb(229, 227, 223);
 }
 
-::selection {
-  background: $turquoise; /* WebKit/Blink Browsers */
-  color: $inverse;;
+#map-canvas {
+  height: 100%;
+  width: 100%;
 }
+
+::selection {
+  background: $turquoise;
+  /* WebKit/Blink Browsers */
+  color: $inverse;
+  ;
+}
+
 ::-moz-selection {
-  background: $turquoise; /* Gecko Browsers */
+  background: $turquoise;
+  /* Gecko Browsers */
   color: $inverse;
 }
 
@@ -28,26 +39,49 @@ body {
   overflow: auto;
 }
 
-#map-canvas {
-  height: 100%;
+// #menu-toggle {
+//   top: 0;
+//   left: 10px;
+//   /*padding: 5px;*/
+//   position: absolute;
+//   width: 60px;
+//   z-index: 1;
+//   color: $wet-asphalt
+// }
+.box {
+  // margin-bottom: 1.2em;
+  // padding-bottom: .5em;
+  // min-height: 6em;
 }
 
-#menu-toggle {
-  top: 0;
-  left: 10px;
-  /*padding: 5px;*/
-  position: absolute;
-  width: 60px;
-  z-index: 1;
-  color: $wet-asphalt
-}
-
-article{
-  margin-bottom: 1.2em;
-  padding-bottom: .5em;
-  min-height: 6em;
-}
-
-#datepicker{
+#datepicker {
   background-color: $clouds;
+}
+
+#footer {
+  background: $inverse;
+  position: fixed;
+  width: 100%;
+  height: 200px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  bottom: 0;
+  z-index: 1;
+  opacity: 0.75;
+  article {
+    float: left;
+    width: $article-width;
+    height: 100px;
+    margin: 10px;
+    border: 1px solid;
+    :after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+  }
+  .items {
+    width: ($article-width + 40px) * 5;
+    // height: 100px;
+  }
 }

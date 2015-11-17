@@ -4,7 +4,6 @@
 (function($) {
 
   var gmap,
-    $datepicker = $('#datepicker'),
     $slider = $('#slider'),
     $select = {
       fromtime: $('#select-form-time'),
@@ -21,26 +20,113 @@
 
     google.maps.event.addDomListener(window, 'load', function() {
       var styles = [{
-        stylers: [{
-          hue: '#00ffe6'
+            "featureType": "water",
+            "elementType": "geometry",
+            "stylers": [{
+                "color": "#000000"
+            }, {
+                "lightness": 17
+            }]
         }, {
-          saturation: -20
-        }]
-      }, {
-        featureType: 'road',
-        elementType: 'geometry',
-        stylers: [{
-          lightness: 100
+            "featureType": "landscape",
+            "elementType": "geometry",
+            "stylers": [{
+                "color": "#000000"
+            }, {
+                "lightness": 20
+            }]
         }, {
-          visibility: 'simplified'
-        }]
-      }, {
-        featureType: 'road',
-        elementType: 'labels',
-        stylers: [{
-          visibility: 'off'
-        }]
-      }];
+            "featureType": "road.highway",
+            "elementType": "geometry.fill",
+            "stylers": [{
+                "color": "#000000"
+            }, {
+                "lightness": 17
+            }]
+        }, {
+            "featureType": "road.highway",
+            "elementType": "geometry.stroke",
+            "stylers": [{
+                "color": "#000000"
+            }, {
+                "lightness": 29
+            }, {
+                "weight": 0.2
+            }]
+        }, {
+            "featureType": "road.arterial",
+            "elementType": "geometry",
+            "stylers": [{
+                "color": "#000000"
+            }, {
+                "lightness": 18
+            }]
+        }, {
+            "featureType": "road.local",
+            "elementType": "geometry",
+            "stylers": [{
+                "color": "#000000"
+            }, {
+                "lightness": 16
+            }]
+        }, {
+            "featureType": "poi",
+            "elementType": "geometry",
+            "stylers": [{
+                "color": "#000000"
+            }, {
+                "lightness": 21
+            }]
+        }, {
+            "elementType": "labels.text.stroke",
+            "stylers": [{
+                "visibility": "on"
+            }, {
+                "color": "#000000"
+            }, {
+                "lightness": 16
+            }]
+        }, {
+            "elementType": "labels.text.fill",
+            "stylers": [{
+                "saturation": 36
+            }, {
+                "color": "#000000"
+            }, {
+                "lightness": 40
+            }]
+        }, {
+            "elementType": "labels.icon",
+            "stylers": [{
+                "visibility": "off"
+            }]
+        }, {
+            "featureType": "transit",
+            "elementType": "geometry",
+            "stylers": [{
+                "color": "#000000"
+            }, {
+                "lightness": 19
+            }]
+        }, {
+            "featureType": "administrative",
+            "elementType": "geometry.fill",
+            "stylers": [{
+                "color": "#000000"
+            }, {
+                "lightness": 20
+            }]
+        }, {
+            "featureType": "administrative",
+            "elementType": "geometry.stroke",
+            "stylers": [{
+                "color": "#000000"
+            }, {
+                "lightness": 17
+            }, {
+                "weight": 1.2
+            }]
+        }];
 
       // Create a new StyledMapType object, passing it the array of styles,
       // as well as the name to be displayed on the map type control.
@@ -83,16 +169,10 @@
       _this.find('span').toggleClass('fui-list', 'fui-cross');
     });
 
-    $datepicker.datepicker({
-      language: 'zh-TW',
-      todayHighlight: true
-    });
-    $datepicker.datepicker('setDate', new Date());
-
+    
     $btn.search.on('click', function() {
       var _content = '搭乘時間: ' + $slider.find('.ui-slider-value:last').data('slidervalue') +
         '\n交通工具: ' + $select.conveyance.val() +
-        '\n查詢日期: ' + $datepicker.data('datepicker').getFormattedDate('yyyy-mm-dd') +
         '\n開始時間: ' + $select.fromtime.val();
 
       console.log(_content);
