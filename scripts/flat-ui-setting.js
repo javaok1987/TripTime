@@ -32,12 +32,13 @@ String.prototype.repeat = function(num) {
 
     jQuery(function($) {
 
-        var $slider = $('#slider');
-        var sliderValueMultiplier = 15;
+        var $slider = $('#slider'),
+            $walkSlider = $('#walk-slider'),
+            sliderValueMultiplier = 15;
 
         // Custom Selects
         if ($('[data-toggle="select"]').length) {
-            $('[data-toggle="select"]').select2();
+            $('[data-toggle="select"]').select2(); 
         }
 
         // jQuery UI Sliders
@@ -55,9 +56,28 @@ String.prototype.repeat = function(num) {
             }).addSliderSegments($slider.slider('option').max);
         }
 
+        if ($walkSlider.length > 0) {
+            $walkSlider.slider({
+                min: 1,
+                max: 4,
+                value: 2,
+                orientation: 'horizontal',
+                range: 'min',
+                slide: function(event, ui) {
+                    var _value = ui.value * sliderValueMultiplier;
+                    $walkSlider.find('.ui-slider-value:last').text(_value + ' 分鐘').data('slidervalue', _value);
+                }
+            }).addSliderSegments($walkSlider.slider('option').max);
+        }
+
         // Checkboxes and Radio buttons
         $('[data-toggle="checkbox"]').radiocheck();
         $('[data-toggle="radio"]').radiocheck();
+
+        // Switches
+        if ($('[data-toggle="switch"]').length) {
+            $('[data-toggle="switch"]').bootstrapSwitch();
+        }
 
     });
 

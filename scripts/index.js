@@ -5,6 +5,7 @@
 
   var gmap,
     $slider = $('#slider'),
+    $walkSlider = $('#walk-slider'),
     $select = {
       fromtime: $('#select-form-time'),
       conveyance: $('#select-conveyance')
