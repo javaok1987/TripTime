@@ -5,9 +5,8 @@
 Install dependencies.
 
 ```bash
-
-$ bower install
 $ npm install
+$ bower install
 ```
 
 ## Run

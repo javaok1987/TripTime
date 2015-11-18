@@ -7,8 +7,7 @@
 }
 
 html,
-body,
-#wrapper {
+body {
   width: 100%;
   height: 100%;
   margin: 0px;
@@ -17,9 +16,18 @@ body,
   background-color: rgb(229, 227, 223);
 }
 
-#map-canvas {
-  height: 100%;
+#wrapper {
   width: 100%;
+  height: 100%;
+  // height: 80%;
+  // @media screen and (max-device-width: 768px) {
+  //   height: 50%;
+  // }
+}
+
+#map-canvas {
+  width: 100%;
+  height: 100%;
 }
 
 ::selection {
@@ -39,20 +47,97 @@ body,
   overflow: auto;
 }
 
-// #menu-toggle {
-//   top: 0;
-//   left: 10px;
-//   /*padding: 5px;*/
-//   position: absolute;
-//   width: 60px;
-//   z-index: 1;
-//   color: $wet-asphalt
-// }
-.box {
-  // margin-bottom: 1.2em;
-  // padding-bottom: .5em;
-  // min-height: 6em;
+#menu-toggle-close {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  z-index: 1;
+  background-color: $inverse;
+  width: 32px;
 }
+
+#menu-toggle-open {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  z-index: 1;
+  .fui-list{
+  color: $inverse;
+
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.pull-center {
+  text-align: center;
+}
+
+
+/* CSS Overlay */
+
+.iui-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.iui-modal {
+  width: 100%;
+  height: 100%;
+  // line-height: 200px;
+  position: fixed;
+  // top: 50%; 
+  // left: 50%;
+  // margin-top: -100px;
+  // margin-left: -150px;
+  // border-radius: 5px;
+  text-align: center;
+  z-index: 11;
+  /* 1px higher than the overlay layer */
+  overflow: auto;
+  color: $inverse;
+  background-color: $midnight-blue;
+}
+
+.iui-overlay-close {
+  position: fixed;
+  top: .5em;
+  right: 1em;
+  cursor: pointer;
+}
+
+.iui-content {
+  margin: 30px;
+}
+
+.iui-modal-xs {
+  width: 300px;
+  height: 200px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: -150px;
+  border-radius: 5px;
+  text-align: center;
+  z-index: 11;
+  /* 1px higher than the overlay layer */
+  color: $inverse;
+  // background-color: $midnight-blue;
+  .row {
+    margin-bottom: 20px;
+  }
+}
+
+
+/* End CSS Overlay */
 
 #datepicker {
   background-color: $clouds;
@@ -62,12 +147,12 @@ body,
   background: $inverse;
   position: fixed;
   width: 100%;
-  height: auto;
+  height: 20%;
   overflow-x: auto;
   overflow-y: hidden;
   bottom: 0;
   z-index: 1;
-  opacity: 0.8;
+  // opacity: 0.9;
   article {
     float: left;
     width: $article-width;
@@ -76,18 +161,13 @@ body,
     .share {
       height: $article-height;
     }
-    :after {
-      content: "";
-      display: table;
-      clear: both;
-    }
     .vertical-container {
       height: $article-height;
       display: -webkit-flex;
       display: flex;
       -webkit-align-items: center;
-      align-items: center;
       -webkit-justify-content: center;
+      align-items: center;
       justify-content: center;
     }
     .ui-slider {
@@ -97,6 +177,27 @@ body,
   }
   .items {
     width: ($article-width + 40px) * 6;
+  }
+  :after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  @media screen and (max-device-width: 768px) {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 50%;
+    article {
+      width: 100%;
+      margin: 0;
+      padding: 10px;
+      .vertical-container {
+        height: 80px;
+      }
+    }
+    .items {
+      width: 100%;
+    }
   }
 }
 
