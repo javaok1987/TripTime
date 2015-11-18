@@ -116,21 +116,26 @@ IanUtil.overlay = (function() {
     $btn = {
       search: $('#btn-search')
     },
-    $menu = $('#menu-toggle'),
-    $wrapper = $('#wrapper');
+    $menuToggleClose = $('#menu-toggle-close'),
+    $menuToggleOpen = $('#menu-toggle-open'),
+    $wrapper = $('#wrapper'),
+    $footer = $('#footer');
 
 
   jQuery(function($) {
 
     $(window).resize(resizeMap);
 
-    $menu.on('click', function(event) {
-      event.preventDefault();
-      $('#wrapper').toggleClass('toggled').promise().done(function() {
-        setTimeout(resizeMap, 500); //TODO:不加setTimeout無法觸發?
-      });
-      var _this = $(this);
-      _this.find('span').toggleClass('fui-list', 'fui-cross');
+    // $('#wrapper').toggleClass('toggled').promise().done(function() {
+    //   setTimeout(resizeMap, 500); //TODO:不加setTimeout無法觸發?
+    // });
+    
+    $menuToggleClose.on('click', function() {
+      $footer.slideUp('slow');
+    });
+
+    $menuToggleOpen.on('click', function() {
+      $footer.slideDown('slow');
     });
 
     $btn.search.on('click', function() {
@@ -148,8 +153,8 @@ IanUtil.overlay = (function() {
     });
 
     $('#overlay-weekly').find('button').on('click', function() {
-        iutil.overlay.hide('overlay-weekly');
-        console.log($(this).text());
+      iutil.overlay.hide('overlay-weekly');
+      console.log($(this).text());
     });
 
   });
