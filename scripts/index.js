@@ -9,7 +9,7 @@
     $select = {
       fromtime: $('#select-form-time'),
     },
-    $conveyance = $('input[name=conveyance]:checked'),
+    $conveyance = $('#article-conveyance'),
     $btn = {
       search: $('#btn-search')
     },
@@ -39,7 +39,6 @@
 
     $btn.search.on('click', function() {
       var _content = '搭乘時間: ' + $slider.find('.ui-slider-value:last').data('slidervalue') +
-        '\n交通工具: ' + $conveyance.val() +
         '\n開始時間: ' + $select.fromtime.val();
 
       console.log(_content);
@@ -54,6 +53,12 @@
     $('#overlay-weekly').find('button').on('click', function() {
       iToolkit.overlay.hide('overlay-weekly');
       console.log($(this).text());
+    });
+
+    $conveyance.find('[data-toggle="checkbox"]').on('change.radiocheck', function(ele) {
+        var $this = $(this);
+      console.log($this.prop('checked'));
+      console.log($this.prop('id'));
     });
 
   });
