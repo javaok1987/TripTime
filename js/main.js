@@ -83,6 +83,118 @@ String.prototype.repeat = function(num) {
 
 })(jQuery);
 
+/************
+ Classes to set up the drop-down control
+ ************/
+var CustomControl = CustomControl || {};
+(function(ctrl, gmap, win) {
+
+  ctrl.optionDiv = function(options) {
+    var control = document.createElement('DIV');
+    control.className = "dropDownItemDiv";
+    control.title = options.title;
+    control.id = options.id;
+    control.innerHTML = options.name;
+    gmap.event.addDomListener(control, 'click', options.action);
+    return control;
+  };
+
+  ctrl.checkBox = function(options) {
+    //first make the outer container
+    var container = document.createElement('DIV');
+    container.className = "checkboxContainer";
+    container.title = options.title;
+
+    var span = document.createElement('SPAN');
+    span.role = "checkbox";
+    span.className = "checkboxSpan";
+
+    var bDiv = document.createElement('DIV');
+    bDiv.className = "blankDiv";
+    bDiv.id = options.id;
+
+    var image = document.createElement('IMG');
+    image.className = "blankImg";
+    image.src = "http://maps.gstatic.com/mapfiles/mv/imgs8.png";
+
+    var label = document.createElement('LABEL');
+    label.className = "checkboxLabel";
+    label.innerHTML = options.label;
+
+    bDiv.appendChild(image);
+    span.appendChild(bDiv);
+    container.appendChild(span);
+    container.appendChild(label);
+
+    gmap.event.addDomListener(container, 'click', function() {
+      if (document.getElementById(bDiv.id).style.display === 'block') {
+        document.getElementById(bDiv.id).style.display = 'none';
+        options.val = false;
+      } else {
+        document.getElementById(bDiv.id).style.display = 'block';
+        options.val = true;
+      }
+
+      options.action();
+    });
+    return container;
+  };
+
+  ctrl.separator = function() {
+    var sep = document.createElement('DIV');
+    sep.className = "separatorDiv";
+    return sep;
+  };
+
+  ctrl.dropDownOptionsDiv = function(options) {
+    var container = document.createElement('DIV');
+    container.className = "dropDownOptionsDiv";
+    container.id = options.id;
+    for (var i = 0; i < options.items.length; i++) {
+      container.appendChild(options.items[i]);
+    }
+    return container;
+  };
+
+  ctrl.dropDownControl = function(options) {
+    var container = document.createElement('DIV');
+    container.className = 'container';
+
+    var control = document.createElement('DIV');
+    control.className = 'dropDownControl';
+    control.innerHTML = options.name;
+    control.id = options.name;
+    var arrow = document.createElement('IMG');
+    arrow.src = "http://maps.gstatic.com/mapfiles/arrow-down.png";
+    arrow.className = 'dropDownArrow';
+    control.appendChild(arrow);
+    container.appendChild(control);
+    container.appendChild(options.dropDown);
+
+    options.gmap.controls[options.position].push(container);
+    gmap.event.addDomListener(container, 'click', function() {
+      (document.getElementById('myddOptsDiv').style.display === 'block') ? document.getElementById('myddOptsDiv').style.display = 'none': document.getElementById('myddOptsDiv').style.display = 'block';
+      setTimeout(function() {
+        document.getElementById('myddOptsDiv').style.display = 'none';
+      }, 1500);
+    });
+  };
+
+  ctrl.buttonControl = function(options) {
+    var control = document.createElement('DIV');
+    control.innerHTML = options.name;
+    control.className = 'button';
+    control.index = 1;
+
+    // Add the control to the map
+    options.gmap.controls[options.position].push(control);
+
+    // When the button is clicked pan to sydney
+    gmap.event.addDomListener(control, 'click', options.action);
+    return control;
+  };
+})(CustomControl, google.maps, window);
+
 'use strict';
 
 var IanToolkit = IanToolkit || {};
@@ -144,7 +256,7 @@ var IanToolkit = IanToolkit || {};
 /*global google:false */
 'use strict';
 
-(function($, iToolkit) {
+(function($, iToolkit, custCtrl) {
 
   var gmap,
     $slider = $('#slider'),
@@ -189,7 +301,7 @@ var IanToolkit = IanToolkit || {};
     $('.iui-overlay').find('.btn-close').on('click', function() {
       iToolkit.overlay.hide('overlay');
       iToolkit.overlay.show('overlay-weekly');
-      loadMap();
+      initMap();
     });
 
     $('#overlay-weekly').find('button').on('click', function() {
@@ -199,8 +311,8 @@ var IanToolkit = IanToolkit || {};
 
   });
 
-  var loadMap = function() {
-    
+  var initMap = function() {
+
     var styles = [{
       "featureType": "water",
       "elementType": "geometry",
@@ -333,7 +445,56 @@ var IanToolkit = IanToolkit || {};
       name: 'Styled Map'
     }));
     gmap.setMapTypeId('map_style');
+
+    //create the check box items
+    var checkOptions = {
+      gmap: gmap,
+      title: 'heatMap 圖層開關',
+      id: 'heatMapCtrl',
+      label: 'HeatMap',
+      action: function() {
+        console.log('clicked check HeatMapCtrl');
+      }
+    };
+    var check1 = new custCtrl.checkBox(checkOptions);
+
+    var checkOptions2 = {
+      gmap: gmap,
+      title: 'GeoJson 圖層開關',
+      id: 'geoJsonCtrl',
+      label: 'GeoJson',
+      action: function() {
+        console.log(this.val);
+        console.log('clicked check GeoJsonCtrl');
+      }
+    };
+    var check2 = new custCtrl.checkBox(checkOptions2);
+
+    //create the input box items
+
+    //possibly add a separator between controls        
+    var sep = new custCtrl.separator();
+
+    //put them all together to create the drop down       
+    var ddDivOptions = {
+      items: [check1, check2],
+      id: 'myddOptsDiv'
+    };
+    //alert(ddDivOptions.items[1]);
+    var dropDownDiv = new custCtrl.dropDownOptionsDiv(ddDivOptions);
+
+    var dropDownOptions = {
+      gmap: gmap,
+      name: '圖層',
+      id: 'mapControl',
+      title: 'A custom drop down select with mixed elements',
+      position: google.maps.ControlPosition.TOP_RIGHT,
+      dropDown: dropDownDiv
+    };
+
+    var dropDown1 = new custCtrl.dropDownControl(dropDownOptions);
   };
 
 
-})(jQuery, IanToolkit);
+
+})(jQuery, IanToolkit, CustomControl);
