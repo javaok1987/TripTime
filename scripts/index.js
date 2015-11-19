@@ -1,25 +1,7 @@
 /*global google:false */
 'use strict';
 
-var IanUtil = IanUtil || {};
-IanUtil.overlay = (function() {
-  var method = {
-    hide: function(elementId) {
-      document.getElementById('' + elementId).className += ' hidden';
-    },
-    show: function(elementId) {
-      var el = document.getElementById('' + elementId);
-      if (el.classList) {
-        el.classList.remove('hidden');
-      } else {
-        el.className = el.className.replace(new RegExp('(^|\\b)' + 'hidden' + '(\\b|$)', 'gi'), ' ');
-      }
-    }
-  };
-  return method;
-})();
-
-(function($, iutil) {
+(function($, iToolkit, custCtrl) {
 
   var gmap,
     $slider = $('#slider'),
@@ -39,17 +21,19 @@ IanUtil.overlay = (function() {
 
   jQuery(function($) {
 
-    $(window).resize(resizeMap);
+    FastClick.attach(document.body);
 
-    // $('#wrapper').toggleClass('toggled').promise().done(function() {
-    //   setTimeout(resizeMap, 500); //TODO:不加setTimeout無法觸發?
-    // });
-    
-    $menuToggleClose.on('click', function() {
+    $(window).resize(function(argument) {
+      google.maps.event.trigger(gmap, 'resize');
+    });
+
+    $menuToggleClose.on('click', function(e) {
+      e.preventDefault();
       $footer.slideUp('slow');
     });
 
-    $menuToggleOpen.on('click', function() {
+    $menuToggleOpen.on('click', function(e) {
+      e.preventDefault();
       $footer.slideDown('slow');
     });
 
@@ -62,19 +46,20 @@ IanUtil.overlay = (function() {
     });
 
     $('.iui-overlay').find('.btn-close').on('click', function() {
-      iutil.overlay.hide('overlay');
-      iutil.overlay.show('overlay-weekly');
-      loadMap();
+      iToolkit.overlay.hide('overlay');
+      iToolkit.overlay.show('overlay-weekly');
+      initMap();
     });
 
     $('#overlay-weekly').find('button').on('click', function() {
-      iutil.overlay.hide('overlay-weekly');
+      iToolkit.overlay.hide('overlay-weekly');
       console.log($(this).text());
     });
 
   });
 
-  var loadMap = function() {
+  var initMap = function() {
+
     var styles = [{
       "featureType": "water",
       "elementType": "geometry",
@@ -184,13 +169,7 @@ IanUtil.overlay = (function() {
       }]
     }];
 
-    // Create a new StyledMapType object, passing it the array of styles,
-    // as well as the name to be displayed on the map type control.
-    var styledMap = new google.maps.StyledMapType(styles, {
-      name: 'Styled Map'
-    });
-
-    var mapOptions = {
+    gmap = new google.maps.Map(document.getElementById('map-canvas'), {
       zoom: 12,
       mapTypeControlOptions: {
         // mapTypeIds: [google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE]
@@ -208,17 +187,61 @@ IanUtil.overlay = (function() {
         position: google.maps.ControlPosition.RIGHT_CENTER
       },
       center: new google.maps.LatLng(25.0372264, 121.506378) //全台23.714059, 120.832002
-    };
-    gmap = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-    gmap.mapTypes.set('map_style', styledMap);
+    });
+    gmap.mapTypes.set('map_style', new google.maps.StyledMapType(styles, {
+      name: 'Styled Map'
+    }));
     gmap.setMapTypeId('map_style');
+
+    //create the check box items
+    var checkOptions = {
+      gmap: gmap,
+      title: 'heatMap 圖層開關',
+      id: 'heatMapCtrl',
+      label: 'HeatMap',
+      action: function() {
+        console.log('clicked check HeatMapCtrl');
+      }
+    };
+    var check1 = new custCtrl.checkBox(checkOptions);
+
+    var checkOptions2 = {
+      gmap: gmap,
+      title: 'GeoJson 圖層開關',
+      id: 'geoJsonCtrl',
+      label: 'GeoJson',
+      action: function() {
+        console.log(this.val);
+        console.log('clicked check GeoJsonCtrl');
+      }
+    };
+    var check2 = new custCtrl.checkBox(checkOptions2);
+
+    //create the input box items
+
+    //possibly add a separator between controls        
+    var sep = new custCtrl.separator();
+
+    //put them all together to create the drop down       
+    var ddDivOptions = {
+      items: [check1, check2],
+      id: 'myddOptsDiv'
+    };
+    //alert(ddDivOptions.items[1]);
+    var dropDownDiv = new custCtrl.dropDownOptionsDiv(ddDivOptions);
+
+    var dropDownOptions = {
+      gmap: gmap,
+      name: '圖層',
+      id: 'mapControl',
+      title: 'A custom drop down select with mixed elements',
+      position: google.maps.ControlPosition.TOP_RIGHT,
+      dropDown: dropDownDiv
+    };
+
+    var dropDown1 = new custCtrl.dropDownControl(dropDownOptions);
   };
 
-  var resizeMap = function() {
-    google.maps.event.trigger(gmap, 'resize');
-  };
 
 
-
-
-})(jQuery, IanUtil);
+})(jQuery, IanToolkit, CustomControl);
