@@ -276,6 +276,8 @@ var IanToolkit = IanToolkit || {};
 
   jQuery(function($) {
 
+    FastClick.attach(document.body);
+
     $(window).resize(function(argument) {
       google.maps.event.trigger(gmap, 'resize');
     });
