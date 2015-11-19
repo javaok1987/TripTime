@@ -83,12 +83,35 @@ String.prototype.repeat = function(num) {
 
 })(jQuery);
 
-/*global google:false */
 'use strict';
 
-var IanUtil = IanUtil || {};
-IanUtil.overlay = (function() {
-  var method = {
+var IanToolkit = IanToolkit || {};
+(function(toolkit, win) {
+  var logger = {};
+  // ---------- Initial function
+  (function() {
+    logger.log = function(obj) {
+      if (console) {
+        console.log(obj);
+      }
+    };
+
+    $.ajaxSetup({
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      type: "POST",
+      statusCode: {
+        404: function() {
+          //404 process
+        }
+      },
+      timeout: 2000,
+      error: function(xhr, status, errorThrown) {},
+      success: function(data, status, xhr) {}
+    });
+  })();
+
+  toolkit.overlay = {
     hide: function(elementId) {
       document.getElementById('' + elementId).className += ' hidden';
     },
@@ -101,10 +124,27 @@ IanUtil.overlay = (function() {
       }
     }
   };
-  return method;
-})();
 
-(function($, iutil) {
+  toolkit.ajax = {
+    sendRequest: function(requestUrl, requestData, sussessCallback) {
+      //console.log($.ajaxSetup());
+      $.ajax({
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          type: "POST",
+          url: requestUrl,
+          data: JSON.stringify(requestData),
+        })
+        .done(sussessCallback);
+    }
+  };
+
+})(IanToolkit, window);
+
+/*global google:false */
+'use strict';
+
+(function($, iToolkit) {
 
   var gmap,
     $slider = $('#slider'),
@@ -124,17 +164,17 @@ IanUtil.overlay = (function() {
 
   jQuery(function($) {
 
-    $(window).resize(resizeMap);
+    $(window).resize(function(argument) {
+      google.maps.event.trigger(gmap, 'resize');
+    });
 
-    // $('#wrapper').toggleClass('toggled').promise().done(function() {
-    //   setTimeout(resizeMap, 500); //TODO:不加setTimeout無法觸發?
-    // });
-    
-    $menuToggleClose.on('click', function() {
+    $menuToggleClose.on('click', function(e) {
+      e.preventDefault();
       $footer.slideUp('slow');
     });
 
-    $menuToggleOpen.on('click', function() {
+    $menuToggleOpen.on('click', function(e) {
+      e.preventDefault();
       $footer.slideDown('slow');
     });
 
@@ -147,19 +187,20 @@ IanUtil.overlay = (function() {
     });
 
     $('.iui-overlay').find('.btn-close').on('click', function() {
-      iutil.overlay.hide('overlay');
-      iutil.overlay.show('overlay-weekly');
+      iToolkit.overlay.hide('overlay');
+      iToolkit.overlay.show('overlay-weekly');
       loadMap();
     });
 
     $('#overlay-weekly').find('button').on('click', function() {
-      iutil.overlay.hide('overlay-weekly');
+      iToolkit.overlay.hide('overlay-weekly');
       console.log($(this).text());
     });
 
   });
 
   var loadMap = function() {
+    
     var styles = [{
       "featureType": "water",
       "elementType": "geometry",
@@ -269,13 +310,7 @@ IanUtil.overlay = (function() {
       }]
     }];
 
-    // Create a new StyledMapType object, passing it the array of styles,
-    // as well as the name to be displayed on the map type control.
-    var styledMap = new google.maps.StyledMapType(styles, {
-      name: 'Styled Map'
-    });
-
-    var mapOptions = {
+    gmap = new google.maps.Map(document.getElementById('map-canvas'), {
       zoom: 12,
       mapTypeControlOptions: {
         // mapTypeIds: [google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE]
@@ -293,17 +328,12 @@ IanUtil.overlay = (function() {
         position: google.maps.ControlPosition.RIGHT_CENTER
       },
       center: new google.maps.LatLng(25.0372264, 121.506378) //全台23.714059, 120.832002
-    };
-    gmap = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-    gmap.mapTypes.set('map_style', styledMap);
+    });
+    gmap.mapTypes.set('map_style', new google.maps.StyledMapType(styles, {
+      name: 'Styled Map'
+    }));
     gmap.setMapTypeId('map_style');
   };
 
-  var resizeMap = function() {
-    google.maps.event.trigger(gmap, 'resize');
-  };
 
-
-
-
-})(jQuery, IanUtil);
+})(jQuery, IanToolkit);
