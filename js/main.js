@@ -256,7 +256,7 @@ var IanToolkit = IanToolkit || {};
 /*global google:false */
 'use strict';
 
-(function($, iToolkit, custCtrl) {
+(function($, iToolkit, custCtrl, fast) {
 
   var gmap,
     $slider = $('#slider'),
@@ -276,7 +276,7 @@ var IanToolkit = IanToolkit || {};
 
   jQuery(function($) {
 
-    FastClick.attach(document.body);
+    fast.attach(document.body);
 
     $(window).resize(function(argument) {
       google.maps.event.trigger(gmap, 'resize');
@@ -311,7 +311,7 @@ var IanToolkit = IanToolkit || {};
     });
 
     $conveyance.find('[data-toggle="checkbox"]').on('change.radiocheck', function(ele) {
-        var $this = $(this);
+      var $this = $(this);
       console.log($this.prop('checked'));
       console.log($this.prop('id'));
     });
@@ -504,4 +504,4 @@ var IanToolkit = IanToolkit || {};
 
 
 
-})(jQuery, IanToolkit, CustomControl);
+})(jQuery, IanToolkit, CustomControl, FastClick);
