@@ -1,7 +1,9 @@
 'use strict';
 
 var IanToolkit = IanToolkit || {};
-(function(toolkit, win) {
+
+(function(toolkit, $, win) {
+
   var logger = {};
   // ---------- Initial function
   (function() {
@@ -54,4 +56,6 @@ var IanToolkit = IanToolkit || {};
     }
   };
 
-})(IanToolkit, window);
+  return toolkit;
+
+})(IanToolkit, jQuery, window);

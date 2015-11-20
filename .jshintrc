@@ -116,6 +116,8 @@
 	//"exampleVar",
 	//"anotherCoolGlobal",
 	//"iLoveDouglas"
+	"google",
+	"FastClick"
 	]
 	//,	"indent" : 2 // Specify indentation spacing
 }

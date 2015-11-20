@@ -161,7 +161,7 @@ body {
   }
   .items {
     margin-top: 20px;
-    width: ($article-width + 40px) * 6;
+    width: ($article-width + 40px) * 5.5;
   }
   :after {
     content: "";
@@ -208,15 +208,15 @@ body {
 
 
 /* 交通工具 */
+
 #article-conveyance {
-    label:nth-child(2){
+  label:nth-child(2) {
     color: $belize-hole;
   }
-   label:nth-child(3){
+  label:nth-child(3) {
     color: $green-sea;
   }
-   label:nth-child(4){
+  label:nth-child(4) {
     color: $pomegranate;
   }
-  
 }

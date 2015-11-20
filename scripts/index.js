@@ -1,4 +1,5 @@
-/*global google:false */
+/* global  IanToolkit,CustomControl */
+
 'use strict';
 
 (function($, iToolkit, custCtrl) {
@@ -56,7 +57,7 @@
     });
 
     $conveyance.find('[data-toggle="checkbox"]').on('change.radiocheck', function(ele) {
-        var $this = $(this);
+      var $this = $(this);
       console.log($this.prop('checked'));
       console.log($this.prop('id'));
     });
@@ -246,7 +247,6 @@
 
     var dropDown1 = new custCtrl.dropDownControl(dropDownOptions);
   };
-
 
 
 })(jQuery, IanToolkit, CustomControl);

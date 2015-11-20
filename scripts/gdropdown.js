@@ -2,6 +2,7 @@
  Classes to set up the drop-down control
  ************/
 var CustomControl = CustomControl || {};
+
 (function(ctrl, gmap, win) {
 
   ctrl.optionDiv = function(options) {
