@@ -87,6 +87,7 @@ String.prototype.repeat = function(num) {
  Classes to set up the drop-down control
  ************/
 var CustomControl = CustomControl || {};
+
 (function(ctrl, gmap, win) {
 
   ctrl.optionDiv = function(options) {
@@ -198,7 +199,9 @@ var CustomControl = CustomControl || {};
 'use strict';
 
 var IanToolkit = IanToolkit || {};
-(function(toolkit, win) {
+
+(function(toolkit, $, win) {
+
   var logger = {};
   // ---------- Initial function
   (function() {
@@ -251,9 +254,12 @@ var IanToolkit = IanToolkit || {};
     }
   };
 
-})(IanToolkit, window);
+  return toolkit;
 
-/*global google:false */
+})(IanToolkit, jQuery, window);
+
+/* global  IanToolkit,CustomControl */
+
 'use strict';
 
 (function($, iToolkit, custCtrl) {
@@ -311,7 +317,7 @@ var IanToolkit = IanToolkit || {};
     });
 
     $conveyance.find('[data-toggle="checkbox"]').on('change.radiocheck', function(ele) {
-        var $this = $(this);
+      var $this = $(this);
       console.log($this.prop('checked'));
       console.log($this.prop('id'));
     });
@@ -501,7 +507,6 @@ var IanToolkit = IanToolkit || {};
 
     var dropDown1 = new custCtrl.dropDownControl(dropDownOptions);
   };
-
 
 
 })(jQuery, IanToolkit, CustomControl);
