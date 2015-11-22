@@ -36,6 +36,11 @@ String.prototype.repeat = function(num) {
             $walkSlider = $('#walk-slider'),
             sliderValueMultiplier = 15;
 
+        // Disable link clicks to prevent page scrolling
+        $(document).on('click', 'a[href="#fakelink"]', function(e) {
+            e.preventDefault();
+        });
+
         // Custom Selects
         if ($('[data-toggle="select"]').length) {
             $('[data-toggle="select"]').select2(); 
@@ -55,6 +60,10 @@ String.prototype.repeat = function(num) {
                 }
             }).addSliderSegments($slider.slider('option').max);
         }
+
+        $('.btn-group').on('click', 'a', function() {
+            $(this).siblings().removeClass('active').end().addClass('active');
+        });
 
         if ($walkSlider.length > 0) {
             $walkSlider.slider({
@@ -113,6 +122,8 @@ var CustomControl = CustomControl || {};
     var bDiv = document.createElement('DIV');
     bDiv.className = "blankDiv";
     bDiv.id = options.id;
+    bDiv.style.display = 'block';
+    bDiv.val = true;
 
     var image = document.createElement('IMG');
     image.className = "blankImg";
@@ -305,14 +316,14 @@ var IanToolkit = IanToolkit || {};
       console.log(_content);
     });
 
+// iToolkit.overlay.hide('overlay');
     $('.iui-overlay').find('.btn-close').on('click', function() {
       iToolkit.overlay.hide('overlay');
-      iToolkit.overlay.show('overlay-weekly');
+      // iToolkit.overlay.show('overlay-weekly');
       initMap();
     });
 
-    $('#overlay-weekly').find('button').on('click', function() {
-      iToolkit.overlay.hide('overlay-weekly');
+    $('#weekly').find('button').on('click', function() {
       console.log($(this).text());
     });
 
@@ -466,6 +477,7 @@ var IanToolkit = IanToolkit || {};
       id: 'heatMapCtrl',
       label: 'HeatMap',
       action: function() {
+        console.log(this.val);
         console.log('clicked check HeatMapCtrl');
       }
     };
