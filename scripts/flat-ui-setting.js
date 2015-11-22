@@ -36,6 +36,11 @@ String.prototype.repeat = function(num) {
             $walkSlider = $('#walk-slider'),
             sliderValueMultiplier = 15;
 
+        // Disable link clicks to prevent page scrolling
+        $(document).on('click', 'a[href="#fakelink"]', function(e) {
+            e.preventDefault();
+        });
+
         // Custom Selects
         if ($('[data-toggle="select"]').length) {
             $('[data-toggle="select"]').select2(); 
@@ -55,6 +60,10 @@ String.prototype.repeat = function(num) {
                 }
             }).addSliderSegments($slider.slider('option').max);
         }
+
+        $('.btn-group').on('click', 'a', function() {
+            $(this).siblings().removeClass('active').end().addClass('active');
+        });
 
         if ($walkSlider.length > 0) {
             $walkSlider.slider({

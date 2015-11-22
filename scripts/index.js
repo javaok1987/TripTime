@@ -45,14 +45,14 @@
       console.log(_content);
     });
 
+    // iToolkit.overlay.hide('overlay');
     $('.iui-overlay').find('.btn-close').on('click', function() {
       iToolkit.overlay.hide('overlay');
-      iToolkit.overlay.show('overlay-weekly');
+      // iToolkit.overlay.show('overlay-weekly');
       initMap();
     });
 
-    $('#overlay-weekly').find('button').on('click', function() {
-      iToolkit.overlay.hide('overlay-weekly');
+    $('#weekly').find('button').on('click', function() {
       console.log($(this).text());
     });
 
@@ -206,6 +206,7 @@
       id: 'heatMapCtrl',
       label: 'HeatMap',
       action: function() {
+        console.log(this.val);
         console.log('clicked check HeatMapCtrl');
       }
     };

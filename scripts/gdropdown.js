@@ -28,6 +28,8 @@ var CustomControl = CustomControl || {};
     var bDiv = document.createElement('DIV');
     bDiv.className = "blankDiv";
     bDiv.id = options.id;
+    bDiv.style.display = 'block';
+    bDiv.val = true;
 
     var image = document.createElement('IMG');
     image.className = "blankImg";
