@@ -316,7 +316,7 @@ var IanToolkit = IanToolkit || {};
       console.log(_content);
     });
 
-// iToolkit.overlay.hide('overlay');
+    // iToolkit.overlay.hide('overlay');
     $('.iui-overlay').find('.btn-close').on('click', function() {
       iToolkit.overlay.hide('overlay');
       // iToolkit.overlay.show('overlay-weekly');
