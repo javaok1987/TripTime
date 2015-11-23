@@ -2,7 +2,7 @@
 
 'use strict';
 
-(function($, iToolkit, custCtrl) {
+(function($, iToolkit, custCtrl, classie) {
 
   var gmap,
     $slider = $('#slider'),
@@ -45,10 +45,8 @@
       console.log(_content);
     });
 
-    // iToolkit.overlay.hide('overlay');
     $('.iui-overlay').find('.btn-close').on('click', function() {
-      iToolkit.overlay.hide('overlay');
-      // iToolkit.overlay.show('overlay-weekly');
+      classie.addClass(document.getElementById('overlay'), 'hidden');
       initMap();
     });
 
@@ -64,140 +62,37 @@
 
   });
 
-  var initMap = function() {
+  function initMap() {
 
-    var styles = [{
-      "featureType": "water",
-      "elementType": "geometry",
-      "stylers": [{
-        "color": "#000000"
-      }, {
-        "lightness": 17
-      }]
-    }, {
-      "featureType": "landscape",
-      "elementType": "geometry",
-      "stylers": [{
-        "color": "#000000"
-      }, {
-        "lightness": 20
-      }]
-    }, {
-      "featureType": "road.highway",
-      "elementType": "geometry.fill",
-      "stylers": [{
-        "color": "#000000"
-      }, {
-        "lightness": 17
-      }]
-    }, {
-      "featureType": "road.highway",
-      "elementType": "geometry.stroke",
-      "stylers": [{
-        "color": "#000000"
-      }, {
-        "lightness": 29
-      }, {
-        "weight": 0.2
-      }]
-    }, {
-      "featureType": "road.arterial",
-      "elementType": "geometry",
-      "stylers": [{
-        "color": "#000000"
-      }, {
-        "lightness": 18
-      }]
-    }, {
-      "featureType": "road.local",
-      "elementType": "geometry",
-      "stylers": [{
-        "color": "#000000"
-      }, {
-        "lightness": 16
-      }]
-    }, {
-      "featureType": "poi",
-      "elementType": "geometry",
-      "stylers": [{
-        "color": "#000000"
-      }, {
-        "lightness": 21
-      }]
-    }, {
-      "elementType": "labels.text.stroke",
-      "stylers": [{
-        "visibility": "on"
-      }, {
-        "color": "#000000"
-      }, {
-        "lightness": 16
-      }]
-    }, {
-      "elementType": "labels.text.fill",
-      "stylers": [{
-        "saturation": 36
-      }, {
-        "color": "#000000"
-      }, {
-        "lightness": 40
-      }]
-    }, {
-      "elementType": "labels.icon",
-      "stylers": [{
-        "visibility": "off"
-      }]
-    }, {
-      "featureType": "transit",
-      "elementType": "geometry",
-      "stylers": [{
-        "color": "#000000"
-      }, {
-        "lightness": 19
-      }]
-    }, {
-      "featureType": "administrative",
-      "elementType": "geometry.fill",
-      "stylers": [{
-        "color": "#000000"
-      }, {
-        "lightness": 20
-      }]
-    }, {
-      "featureType": "administrative",
-      "elementType": "geometry.stroke",
-      "stylers": [{
-        "color": "#000000"
-      }, {
-        "lightness": 17
-      }, {
-        "weight": 1.2
-      }]
-    }];
-
-    gmap = new google.maps.Map(document.getElementById('map-canvas'), {
+    var mapOptions = {
       zoom: 12,
-      mapTypeControlOptions: {
-        // mapTypeIds: [google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE]
-        mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
-      },
-      panControl: false,
-      mapTypeControl: false,
-      scaleControl: false,
-      streetViewControl: false,
-      overviewMapControl: false,
-      maxZoom: 16,
+      center: new google.maps.LatLng(25.0372264, 121.506378),
+      disableDefaultUI: true,
+      scrollwheel: false,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
       zoomControl: true,
       zoomControlOptions: {
         style: google.maps.ZoomControlStyle.SMALL,
         position: google.maps.ControlPosition.RIGHT_CENTER
       },
-      center: new google.maps.LatLng(25.0372264, 121.506378) //全台23.714059, 120.832002
+      // center: new google.maps.LatLng() //全台23.714059, 120.832002
+      styles: [{"featureType":"water","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":17}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":16}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":21}]},{"elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#000000"},{"lightness":16}]},{"elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#000000"},{"lightness":40}]},{"elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":19}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":17},{"weight":1.2}]}]
+    };
+
+    gmap = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+    var image = 'img/map-marker.png';
+    var myLatLng = new google.maps.LatLng(25.0372264, 121.506378);
+    var centerMarker = new google.maps.Marker({
+      position: myLatLng,
+      map: gmap,
+      icon: image
     });
-    gmap.mapTypes.set('map_style', new google.maps.StyledMapType(styles, {
-      name: 'Styled Map'
-    }));
-    gmap.setMapTypeId('map_style');
+
+    google.maps.event.addListener(gmap, 'idle', function() {
+      centerMarker.setPosition(gmap.getCenter());
+      console.log(gmap.getCenter().toString());
+    });
 
     //create the check box items
     var checkOptions = {
@@ -224,8 +119,6 @@
     };
     var check2 = new custCtrl.checkBox(checkOptions2);
 
-    //create the input box items
-
     //possibly add a separator between controls        
     var sep = new custCtrl.separator();
 
@@ -247,7 +140,7 @@
     };
 
     var dropDown1 = new custCtrl.dropDownControl(dropDownOptions);
-  };
+  }
 
 
-})(jQuery, IanToolkit, CustomControl);
+})(jQuery, IanToolkit, CustomControl, classie);

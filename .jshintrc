@@ -117,7 +117,8 @@
 	//"anotherCoolGlobal",
 	//"iLoveDouglas"
 	"google",
-	"FastClick"
+	"FastClick",
+	"classie"
 	]
 	//,	"indent" : 2 // Specify indentation spacing
 }

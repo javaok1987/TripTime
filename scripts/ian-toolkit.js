@@ -28,20 +28,6 @@ var IanToolkit = IanToolkit || {};
     });
   })();
 
-  toolkit.overlay = {
-    hide: function(elementId) {
-      document.getElementById('' + elementId).className += ' hidden';
-    },
-    show: function(elementId) {
-      var el = document.getElementById('' + elementId);
-      if (el.classList) {
-        el.classList.remove('hidden');
-      } else {
-        el.className = el.className.replace(new RegExp('(^|\\b)' + 'hidden' + '(\\b|$)', 'gi'), ' ');
-      }
-    }
-  };
-
   toolkit.ajax = {
     sendRequest: function(requestUrl, requestData, sussessCallback) {
       //console.log($.ajaxSetup());
