@@ -182,12 +182,13 @@ article#article-form-time {
   color: #c0392b; }
 
 .container {
-  width: 110px;
+  width: 80px;
   z-index: 1;
   margin: 5px;
   cursor: pointer;
   text-align: left;
-  z-index: 0; }
+  z-index: 0;
+  padding: 0; }
 
 .dropDownControl {
   direction: ltr;

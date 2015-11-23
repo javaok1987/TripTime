@@ -1,3 +1,84 @@
+/*!
+ * classie - class helper functions
+ * from bonzo https://github.com/ded/bonzo
+ * 
+ * classie.has( elem, 'my-class' ) -> true/false
+ * classie.add( elem, 'my-new-class' )
+ * classie.remove( elem, 'my-unwanted-class' )
+ * classie.toggle( elem, 'my-class' )
+ */
+
+/*jshint browser: true, strict: true, undef: true */
+/*global define: false */
+
+( function( window ) {
+
+'use strict';
+
+// class helper functions from bonzo https://github.com/ded/bonzo
+
+function classReg( className ) {
+  return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
+}
+
+// classList support for class management
+// altho to be fair, the api sucks because it won't accept multiple classes at once
+var hasClass, addClass, removeClass;
+
+if ( 'classList' in document.documentElement ) {
+  hasClass = function( elem, c ) {
+    return elem.classList.contains( c );
+  };
+  addClass = function( elem, c ) {
+    elem.classList.add( c );
+  };
+  removeClass = function( elem, c ) {
+    elem.classList.remove( c );
+  };
+}
+else {
+  hasClass = function( elem, c ) {
+    return classReg( c ).test( elem.className );
+  };
+  addClass = function( elem, c ) {
+    if ( !hasClass( elem, c ) ) {
+      elem.className = elem.className + ' ' + c;
+    }
+  };
+  removeClass = function( elem, c ) {
+    elem.className = elem.className.replace( classReg( c ), ' ' );
+  };
+}
+
+function toggleClass( elem, c ) {
+  var fn = hasClass( elem, c ) ? removeClass : addClass;
+  fn( elem, c );
+}
+
+var classie = {
+  // full names
+  hasClass: hasClass,
+  addClass: addClass,
+  removeClass: removeClass,
+  toggleClass: toggleClass,
+  // short names
+  has: hasClass,
+  add: addClass,
+  remove: removeClass,
+  toggle: toggleClass
+};
+
+// transport
+if ( typeof define === 'function' && define.amd ) {
+  // AMD
+  define( classie );
+} else {
+  // browser global
+  window.classie = classie;
+}
+
+})( window );
+
 'use strict';
 
 // Extend JS String with repeat method
@@ -237,20 +318,6 @@ var IanToolkit = IanToolkit || {};
     });
   })();
 
-  toolkit.overlay = {
-    hide: function(elementId) {
-      document.getElementById('' + elementId).className += ' hidden';
-    },
-    show: function(elementId) {
-      var el = document.getElementById('' + elementId);
-      if (el.classList) {
-        el.classList.remove('hidden');
-      } else {
-        el.className = el.className.replace(new RegExp('(^|\\b)' + 'hidden' + '(\\b|$)', 'gi'), ' ');
-      }
-    }
-  };
-
   toolkit.ajax = {
     sendRequest: function(requestUrl, requestData, sussessCallback) {
       //console.log($.ajaxSetup());
@@ -273,7 +340,7 @@ var IanToolkit = IanToolkit || {};
 
 'use strict';
 
-(function($, iToolkit, custCtrl) {
+(function($, iToolkit, custCtrl, classie) {
 
   var gmap,
     $slider = $('#slider'),
@@ -316,10 +383,8 @@ var IanToolkit = IanToolkit || {};
       console.log(_content);
     });
 
-    // iToolkit.overlay.hide('overlay');
     $('.iui-overlay').find('.btn-close').on('click', function() {
-      iToolkit.overlay.hide('overlay');
-      // iToolkit.overlay.show('overlay-weekly');
+      classie.addClass(document.getElementById('overlay'), 'hidden');
       initMap();
     });
 
@@ -335,140 +400,37 @@ var IanToolkit = IanToolkit || {};
 
   });
 
-  var initMap = function() {
+  function initMap() {
 
-    var styles = [{
-      "featureType": "water",
-      "elementType": "geometry",
-      "stylers": [{
-        "color": "#000000"
-      }, {
-        "lightness": 17
-      }]
-    }, {
-      "featureType": "landscape",
-      "elementType": "geometry",
-      "stylers": [{
-        "color": "#000000"
-      }, {
-        "lightness": 20
-      }]
-    }, {
-      "featureType": "road.highway",
-      "elementType": "geometry.fill",
-      "stylers": [{
-        "color": "#000000"
-      }, {
-        "lightness": 17
-      }]
-    }, {
-      "featureType": "road.highway",
-      "elementType": "geometry.stroke",
-      "stylers": [{
-        "color": "#000000"
-      }, {
-        "lightness": 29
-      }, {
-        "weight": 0.2
-      }]
-    }, {
-      "featureType": "road.arterial",
-      "elementType": "geometry",
-      "stylers": [{
-        "color": "#000000"
-      }, {
-        "lightness": 18
-      }]
-    }, {
-      "featureType": "road.local",
-      "elementType": "geometry",
-      "stylers": [{
-        "color": "#000000"
-      }, {
-        "lightness": 16
-      }]
-    }, {
-      "featureType": "poi",
-      "elementType": "geometry",
-      "stylers": [{
-        "color": "#000000"
-      }, {
-        "lightness": 21
-      }]
-    }, {
-      "elementType": "labels.text.stroke",
-      "stylers": [{
-        "visibility": "on"
-      }, {
-        "color": "#000000"
-      }, {
-        "lightness": 16
-      }]
-    }, {
-      "elementType": "labels.text.fill",
-      "stylers": [{
-        "saturation": 36
-      }, {
-        "color": "#000000"
-      }, {
-        "lightness": 40
-      }]
-    }, {
-      "elementType": "labels.icon",
-      "stylers": [{
-        "visibility": "off"
-      }]
-    }, {
-      "featureType": "transit",
-      "elementType": "geometry",
-      "stylers": [{
-        "color": "#000000"
-      }, {
-        "lightness": 19
-      }]
-    }, {
-      "featureType": "administrative",
-      "elementType": "geometry.fill",
-      "stylers": [{
-        "color": "#000000"
-      }, {
-        "lightness": 20
-      }]
-    }, {
-      "featureType": "administrative",
-      "elementType": "geometry.stroke",
-      "stylers": [{
-        "color": "#000000"
-      }, {
-        "lightness": 17
-      }, {
-        "weight": 1.2
-      }]
-    }];
-
-    gmap = new google.maps.Map(document.getElementById('map-canvas'), {
+    var mapOptions = {
       zoom: 12,
-      mapTypeControlOptions: {
-        // mapTypeIds: [google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE]
-        mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
-      },
-      panControl: false,
-      mapTypeControl: false,
-      scaleControl: false,
-      streetViewControl: false,
-      overviewMapControl: false,
-      maxZoom: 16,
+      center: new google.maps.LatLng(25.0372264, 121.506378),
+      disableDefaultUI: true,
+      scrollwheel: false,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
       zoomControl: true,
       zoomControlOptions: {
         style: google.maps.ZoomControlStyle.SMALL,
         position: google.maps.ControlPosition.RIGHT_CENTER
       },
-      center: new google.maps.LatLng(25.0372264, 121.506378) //全台23.714059, 120.832002
+      // center: new google.maps.LatLng() //全台23.714059, 120.832002
+      styles: [{"featureType":"water","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":17}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":16}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":21}]},{"elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#000000"},{"lightness":16}]},{"elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#000000"},{"lightness":40}]},{"elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":19}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":17},{"weight":1.2}]}]
+    };
+
+    gmap = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+    var image = 'img/map-marker.png';
+    var myLatLng = new google.maps.LatLng(25.0372264, 121.506378);
+    var centerMarker = new google.maps.Marker({
+      position: myLatLng,
+      map: gmap,
+      icon: image
     });
-    gmap.mapTypes.set('map_style', new google.maps.StyledMapType(styles, {
-      name: 'Styled Map'
-    }));
-    gmap.setMapTypeId('map_style');
+
+    google.maps.event.addListener(gmap, 'idle', function() {
+      centerMarker.setPosition(gmap.getCenter());
+      console.log(gmap.getCenter().toString());
+    });
 
     //create the check box items
     var checkOptions = {
@@ -495,8 +457,6 @@ var IanToolkit = IanToolkit || {};
     };
     var check2 = new custCtrl.checkBox(checkOptions2);
 
-    //create the input box items
-
     //possibly add a separator between controls        
     var sep = new custCtrl.separator();
 
@@ -518,7 +478,7 @@ var IanToolkit = IanToolkit || {};
     };
 
     var dropDown1 = new custCtrl.dropDownControl(dropDownOptions);
-  };
+  }
 
 
-})(jQuery, IanToolkit, CustomControl);
+})(jQuery, IanToolkit, CustomControl, classie);
