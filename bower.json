@@ -17,6 +17,7 @@
     "jquery": "~2.1.4",
     "flat-ui": "~2.2.2",
     "bootstrap": "~3.3.5",
-    "fastclick": "~1.0.6"
+    "fastclick": "~1.0.6",
+    "bootstrap-sweetalert": "~0.4.5"
   }
 }
