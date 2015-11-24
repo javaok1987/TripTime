@@ -97,9 +97,9 @@
     //create the check box items
     var checkOptions = {
       gmap: gmap,
-      title: 'heatMap 圖層開關',
-      id: 'heatMapCtrl',
-      label: 'HeatMap',
+      title: '圖層開關',
+      id: 'mapCtrl-1',
+      label: '行駛範圍圖',
       action: function() {
         console.log(this.val);
         console.log('clicked check HeatMapCtrl');
@@ -109,9 +109,9 @@
 
     var checkOptions2 = {
       gmap: gmap,
-      title: 'GeoJson 圖層開關',
-      id: 'geoJsonCtrl',
-      label: 'GeoJson',
+      title: '圖層開關',
+      id: 'mapCtrl-2',
+      label: '可及密度圖',
       action: function() {
         console.log(this.val);
         console.log('clicked check GeoJsonCtrl');
