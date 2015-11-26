@@ -81,7 +81,10 @@ body {
   cursor: pointer; }
 
 .iui-content {
-  margin: 30px; }
+  margin-top: 5%;
+  width: 90%; }
+  .iui-content .row {
+    margin-bottom: 1em; }
 
 .iui-modal-xs {
   width: 300px;
