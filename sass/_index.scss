@@ -100,7 +100,11 @@ body {
 }
 
 .iui-content {
-  margin: 30px;
+  margin-top: 5%;
+  width: 90%;
+  .row{
+    margin-bottom: 1em;
+  }
 }
 
 .iui-modal-xs {

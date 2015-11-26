@@ -24,10 +24,6 @@
 
     FastClick.attach(document.body);
 
-    $(window).resize(function(argument) {
-      google.maps.event.trigger(gmap, 'resize');
-    });
-
     $menuToggleClose.on('click', function(e) {
       e.preventDefault();
       $footer.slideUp('slow');
@@ -94,6 +90,10 @@
       console.log(gmap.getCenter().toString());
     });
 
+    $(window).resize(function(argument) {
+      google.maps.event.trigger(gmap, 'resize');
+    });
+    
     //create the check box items
     var checkOptions = {
       gmap: gmap,
