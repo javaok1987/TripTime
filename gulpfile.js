@@ -1,7 +1,6 @@
 //Modules
 var del = require('del');
 var fs = require('fs');
-var sass = require('node-sass');
 
 //gulp.js plugin registry.
 var gulp = require('gulp');
@@ -43,27 +42,17 @@ gulp.task('scripts', function() {
 
 // Styles Task.
 gulp.task('sass', function() {
-  sass.render({
-    file: config.stylePath + 'main.scss',
-  }, function(err, result) {
-    var _dir = config.appPath + 'css/';
-    if (!fs.existsSync(_dir)) {
-      fs.mkdirSync(_dir);
-    }
-    fs.writeFile(_dir + 'main.css', result.css, function(err) {
-      if (err) {
-        return console.log(err);
-      }
-      console.log("The file was saved!");
-      gulp.src(_dir + 'main.css')
-        .pipe(plugins.minifyCss())
-        .pipe(plugins.rename({
-          suffix: '.min'
-        }))
-        .pipe(gulp.dest(_dir))
-        .pipe(plugins.connect.reload());
-    });
-  });
+  gulp.src(config.stylePath + 'main.scss')
+    .pipe(plugins.sass.sync())
+    .pipe(gulp.dest(config.appPath + 'css/'))
+    .pipe(plugins.sass.sync({
+      outputStyle: 'compressed'
+    }))
+    .pipe(plugins.rename({
+      suffix: '.min'
+    }))
+    .pipe(gulp.dest(config.appPath + 'css/'))
+    .pipe(plugins.connect.reload());
 });
 
 // Watch Task.
