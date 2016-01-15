@@ -71,7 +71,7 @@ body {
   text-align: center;
   z-index: 11;
   overflow: auto;
-  color: white;
+  color: #2c3e50;
   background-color: #2c3e50; }
 
 .iui-overlay-close {
